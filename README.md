@@ -1,53 +1,48 @@
-# SWD80PS - Final Practical Assessment
+# SWD80PS — Final Practical Assessment
 
 ## Secure Software and Web Development (NQF Level 8)
 
 ---
 
-### 🎯 Task Overview
+### Task Overview
 
 You have been given a **Flask web application** that contains **12 deliberate security vulnerabilities**. Your task is to:
 
-1. **Identify** all 12 vulnerabilities
+1. **Identify** all 12 vulnerabilities by exploring the running application
 2. **Fix** the code to make it secure
 3. **Verify** your fixes pass the test suite
 4. **Submit** your completed work
 
 ---
 
-### 🚀 Getting Started
+### Getting Started
 
-#### Option A: GitHub Codespaces (Recommended)
-1. Go to your assigned private repository on GitHub
-2. Click the **"Code"** button → **"Open with Codespaces"**
-3. Wait for the environment to build (1-2 minutes)
+#### Option A: GitHub Codespaces (Recommended — No Installation Needed)
+1. Go to your assigned private repository on GitHub (URL provided by your lecturer)
+2. Click the green **"Code"** button → **"Codespaces"** tab → **"Create codespace on main"**
+3. Wait 1–2 minutes for the environment to build
 4. In the terminal, run: `pip install flask && python app.py`
 5. Open the app at `http://127.0.0.1:5000`
 
 #### Option B: Local Setup
 ```bash
-# Install Python 3.8+ if not already installed
-# Install Flask
 pip install flask
-
-# Run the app
 python app.py
 ```
 
 ---
 
-### 🔐 Step 1: Configure Your Challenge
+### Step 1: Configure Your Student ID
 
-1. Open **`challenge_config.py`**
-2. Set your `STUDENT_ID` to the number your lecturer provided
-3. Save the file
+1. Open **`challenge_config.py`** in the file explorer
+2. Set `STUDENT_ID = X` where X is the unique ID your lecturer provided
+3. Save the file (Ctrl+S)
 
 ---
 
-### 🔍 Step 2: Identify All 12 Vulnerabilities
+### Step 2: Explore the Application
 
-Explore the app at `http://127.0.0.1:5000` and test each feature.
-The 12 vulnerabilities span every route in the app.
+Run the app and visit each route:
 
 | Route | Function |
 |-------|----------|
@@ -59,66 +54,84 @@ The 12 vulnerabilities span every route in the app.
 | `/admin` | Admin panel |
 | `/update_mark` | Update student marks (POST) |
 
+Identify the 12 security vulnerabilities spread across these routes. Look for:
+- Unsafe handling of user input
+- Missing security controls
+- Weak authentication and session management
+- Insecure file handling
+- Poor error handling
+
 ---
 
-### 🛠️ Step 3: Fix the Vulnerabilities
+### Step 3: Fix the Vulnerabilities
 
 Edit **`app.py`** to fix each vulnerability. The source code has comments marking each vulnerable area with `# VULN N:`.
 
-**What to fix (12 vulnerabilities):**
+**The 12 vulnerability types to fix (in any order):**
 
-| # | Vulnerability | How to Fix |
-|---|--------------|------------|
-| 1 | No input validation | Add length/type/content validation on all inputs |
-| 2 | XSS (innerHTML injection) | Use textContent or escape HTML output |
-| 3 | Plaintext password storage | Hash passwords with a strong algorithm (bcrypt/sha256+salts) |
-| 4 | Missing CSRF protection | Add CSRF tokens to forms and validate on server |
-| 5 | SQL injection | Use parameterized queries (not f-strings) |
-| 6 | Weak authentication | Verify passwords properly, enforce RBAC |
-| 7 | Missing security headers | Add CSP, X-Content-Type-Options, X-Frame-Options |
-| 8 | Hardcoded credentials | Move to config or environment variables |
-| 9 | No session timeout | Set PERMANENT_SESSION_LIFETIME, check expiry |
-| 10 | Unsafe file upload | Validate file type, size, and content |
-| 11 | Error exposure | Use generic error pages, log details server-side |
-| 12 | No rate limiting | Limit login attempts (max 5 per minute) |
+| # | Vulnerability Type | Related Route(s) |
+|:-:|-------------------|:----------------:|
+| 1 | Input validation | `/feedback` |
+| 2 | Cross-Site Scripting (XSS) | `/feedback` |
+| 3 | Password storage | `/login` |
+| 4 | CSRF protection | `/update_mark` |
+| 5 | SQL injection | `/search`, `/login` |
+| 6 | Authentication logic | `/login` |
+| 7 | Security headers | All routes |
+| 8 | Hardcoded credentials | `/admin` |
+| 9 | Session management | `/profile` |
+| 10 | File upload security | `/upload` |
+| 11 | Error handling | `/search`, `/login` |
+| 12 | Rate limiting | `/login` |
 
 ---
 
-### ✅ Step 4: Test Your Fixes
+### Step 4: Test Your Fixes
 
 ```bash
 python tests/test_fixes.py
 ```
 
-All 12 checks should show **[PASS]**. If any show **[FAIL]**, review and fix the corresponding vulnerability.
+All 12 checks must show **[PASS]** before submitting.
 
 ---
 
-### 📤 Step 5: Submission
+### Step 5: Submit Your Work
 
-Submit your work according to your lecturer's instructions. You'll typically need to:
+**You do not need to zip or upload files.** Your lecturer already has access to your private repository.
 
-1. **Push** your final code to your private GitHub repository
-2. OR **Zip** the entire project folder and upload to Moodle
-3. Record a **short 2-minute video** walking through your fixes (optional but recommended)
+1. **Commit and push** your final code to your private GitHub repository:
+```bash
+git add -A
+git commit -m "Fixed all 12 vulnerabilities"
+git push
+```
+
+2. **Take a screenshot** of the terminal showing `12/12 passed`
+
+3. **Go to the Moodle course page** → **Final Practical Assessment** dropbox and submit:
+   - Your **GitHub repository URL** (e.g., `https://github.com/mtjikuzu/swd80ps-practical-student-XX`)
+   - Upload your **screenshot** showing all tests passing
+
+That's it — your lecturer will clone your repo to grade your code.
 
 ---
 
-### 📊 Assessment Rubric (50 Marks)
+### Assessment Rubric (50 Marks)
 
 | Criteria | Marks |
 |----------|:-----:|
-| Correctly identify and fix all 12 vulnerabilities | 30 |
-| Code quality and secure practices | 10 |
-| Testing evidence (test suite output) | 5 |
-| Documentation / commit messages | 5 |
+| All 12 vulnerabilities correctly identified and fixed | 30 |
+| Code quality and use of secure coding best practices | 10 |
+| Test suite screenshot (evidence of testing) | 5 |
+| Documentation, commit messages, and presentation | 5 |
 | **Total** | **50** |
 
 ---
 
-### ⚠️ Academic Integrity
+### Academic Integrity
 
 - This is an **individual assessment**
-- Do **not** share your `challenge_config.py` or `STUDENT_ID`
+- Do **not** share your `challenge_config.py` file or `STUDENT_ID`
 - Your code will be checked for plagiarism
-- Using AI to generate the entire solution without understanding is not acceptable
+- Using AI to generate the complete solution without understanding the code is not acceptable
