@@ -108,7 +108,7 @@ else:
 # VULN 6: Proper authentication
 print("\n--- Authentication ---")
 try:
-    r = client.post("/login", data={"username": cfg.ADMIN_USERNAME, "password": "wrongpassword"})
+    r = client.post("/login", data={"username": cfg.ADMIN_USER, "password": "wrongpassword"})
     body = r.data.decode()
     check("VULN 6: Wrong password is rejected", "Logged in" not in body)
 except:
