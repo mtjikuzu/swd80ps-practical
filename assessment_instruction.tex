@@ -1,0 +1,254 @@
+\documentclass[12pt,a4paper]{article}
+
+% Packages
+\usepackage[utf8]{inputenc}
+\usepackage{graphicx}
+\usepackage[margin=2cm]{geometry}
+\usepackage{setspace}
+\usepackage{tabularx}
+\usepackage{array}
+\usepackage[table]{xcolor}
+\usepackage{fancyhdr}
+\usepackage{lastpage}
+\usepackage[colorlinks=true, linkcolor=black, urlcolor=blue]{hyperref}
+\usepackage{booktabs}
+\usepackage{multirow}
+\usepackage{longtable}
+
+% Layout
+\setlength{\parskip}{6pt}
+\setlength{\parindent}{0pt}
+\renewcommand{\headrulewidth}{0pt}
+
+% Colors
+\definecolor{iumred}{RGB}{153, 27, 30}
+\definecolor{darkgray}{RGB}{60, 60, 60}
+
+% Header
+\pagestyle{fancy}
+\fancyhf{}
+\fancyhead[L]{\includegraphics[height=1.2cm]{ium_logo.png}}
+\fancyhead[R]{\small\textcolor{darkgray}{International University of Management\\Faculty of Information \& Communication Technologies}}
+\fancyfoot[C]{\thepage}
+
+\begin{document}
+
+% ─── TITLE BLOCK ──────────────────────────────────────────────
+\vspace{2cm}
+
+\begin{center}
+{\large\textbf{SWD80PS -- Secure Software and Web Development}}\\[6pt]
+{\Large\textcolor{iumred}{\textbf{Final Practical Assessment}}}\\[4pt]
+{\small Semester 1, 2026 \hspace{1cm} NQF Level 8 \hspace{1cm} 12 Credits}
+\end{center}
+
+\vspace{1cm}
+
+% ─── STUDENT INFO ─────────────────────────────────────────────
+\noindent
+\begin{tabularx}{\textwidth}{@{}lXlX@{}}
+\textbf{Student Name:} & \hspace{3cm} & \textbf{Student ID:} & \\
+& & & \\
+\textbf{Lecturer:} & Mr.~Mbaunguraije Tjikuzu & \textbf{Due Date:} & \_\_\_\_\_/\_\_\_\_\_/2026 \\
+\end{tabularx}
+
+\vspace{1cm}
+
+\hrule
+\vspace{0.5cm}
+
+% ─── 1. ASSESSMENT BRIEF ─────────────────────────────────────
+\section*{1. Assessment Brief}
+
+\subsection*{Objective}
+This practical assessment evaluates your ability to identify and remediate common security vulnerabilities in a web application. You will be given a deliberately vulnerable Flask web application and must apply secure coding principles to fix all 12 vulnerabilities.
+
+\subsection*{Scope}
+The assessment covers the following topics from Units 1--5 of the course:
+
+\begin{itemize}
+  \item \textbf{Secure Coding Practices:} Input validation, output encoding, error handling
+  \item \textbf{Authentication \& Access Control:} Password handling, session management, role-based access
+  \item \textbf{Cross-Site Scripting (XSS):} Reflected and stored XSS prevention
+  \item \textbf{CSRF Prevention:} Token-based cross-site request forgery protection
+  \item \textbf{SQL Injection \& Database Security:} Parameterized queries, secure data storage
+  \item \textbf{Security Headers:} CSP, X-Frame-Options, X-Content-Type-Options
+  \item \textbf{File Upload Security:} Type validation and size limits
+  \item \textbf{Rate Limiting:} Login attempt throttling
+\end{itemize}
+
+\subsection*{Platform}
+You will use \textbf{GitHub Codespaces} -- a browser-based development environment. No software installation is required. You will receive access to a private GitHub repository containing the vulnerable application.
+
+\vspace{0.5cm}
+\hrule
+\vspace{0.5cm}
+
+% ─── 2. STEP-BY-STEP INSTRUCTIONS ────────────────────────────
+\section*{2. Instructions}
+
+Follow these steps in order:
+
+\paragraph{Step 1: Create or Confirm Your GitHub Account}
+If you do not already have a GitHub account, create one at \url{https://github.com/signup}. Use your personal email address. A step-by-step guide is available at: \\\url{https://github.com/mtjikuzu/swd80ps-practical/blob/main/github_account_guide.md}
+
+\paragraph{Step 2: Send Your GitHub Username}
+Send your GitHub username to your lecturer or to \textbf{the class representative} so you can be added to your private repository.
+
+\paragraph{Step 3: Accept the Repository Invitation}
+You will receive an email invitation from GitHub. Click \textbf{View Invitation} then \textbf{Accept Invitation} to access your private repository.
+
+\paragraph{Step 4: Open in Codespaces (Browser-Based Coding)}
+Codespaces gives you a full VS Code editor in your web browser --- no software installation needed.
+
+Follow these steps once you have accepted the repository invitation:
+
+\begin{enumerate}
+  \item Go to your private repository URL (provided by your lecturer).\newline
+        \texttt{https://github.com/mtjikuzu/swd80ps-practical-student-XX}
+  \item Look for the green \textbf{Code} button near the top-right of the repository page. Click it.
+  \item A dropdown menu will appear. Select the \textbf{Codespaces} tab.
+  \item Click the \textbf{Create codespace on main} button.
+  \item Wait 1--2 minutes while GitHub builds your environment. You will see a loading screen.
+  \item A browser-based VS Code editor will open automatically with:
+        \begin{itemize}
+          \item A file explorer on the left (showing all project files)
+          \item A terminal panel at the bottom (for running commands)
+          \item Python and Flask already pre-installed
+        \end{itemize}
+\end{enumerate}
+
+\textbf{Tip:} Codespaces saves your work automatically. You can close the browser tab and return later --- your code will still be there. Each GitHub account gets 60 free hours per month.
+
+\paragraph{Step 5: Configure Your Student ID}
+\begin{enumerate}
+  \item In the file explorer, open \texttt{challenge\_config.py}
+  \item Set \texttt{STUDENT\_ID = X} where X is the unique ID your lecturer provided
+  \item Save the file (Ctrl+S)
+\end{enumerate}
+
+\paragraph{Step 6: Explore the Application}
+In the terminal (bottom panel), run:
+\begin{verbatim}
+pip install flask && python app.py
+\end{verbatim}
+Open the app at \url{http://127.0.0.1:5000} and explore all routes:
+\texttt{/feedback}, \texttt{/search}, \texttt{/login}, \texttt{/profile}, \texttt{/upload}, \texttt{/admin}.
+
+\paragraph{Step 7: Identify and Fix All 12 Vulnerabilities}
+Edit \texttt{app.py} to fix each vulnerability. The source code has comments marking each vulnerable area with \texttt{\# VULN N:}. Fix them all.
+
+\paragraph{Step 8: Run the Test Suite}
+\begin{verbatim}
+python tests/test_fixes.py
+\end{verbatim}
+All 12 tests must show \textbf{[PASS]}. If any show \textbf{[FAIL]}, review and fix that vulnerability.
+
+\paragraph{Step 9: Commit and Push Your Changes}
+\begin{verbatim}
+git add -A
+git commit -m "Fixed all 12 vulnerabilities"
+git push
+\end{verbatim}
+
+\paragraph{Step 10: Take a Screenshot}
+Take a screenshot of the terminal showing \texttt{12/12 passed} test results.
+
+\vspace{0.5cm}
+\hrule
+\vspace{0.5cm}
+
+% ─── 3. RUBRIC ───────────────────────────────────────────────
+\section*{3. Marking Rubric (50 Marks)}
+
+\vspace{0.3cm}
+\begin{tabularx}{\textwidth}{|p{6cm}|X|c|}
+\hline
+\rowcolor{iumred!15}
+\textbf{Criterion} & \textbf{Evidence Expected} & \textbf{Marks} \\
+\hline
+Vulnerability identification and remediation & All 12 vulnerabilities correctly identified and fixed. Code comments or commit messages reference each vulnerability. & 30 \\
+\hline
+Code quality and secure practices & Fixes follow secure coding best practices (parameterized queries, proper escaping, input validation, error handling). No bypasses or shortcuts. & 10 \\
+\hline
+Testing evidence & Screenshot of test suite output showing 12/12 passed. & 5 \\
+\hline
+Documentation and commits & Meaningful commit messages, clear code comments, professional presentation. & 5 \\
+\hline
+\rowcolor{iumred!15}
+\multicolumn{2}{|l|}{\textbf{Total}} & \textbf{50} \\
+\hline
+\end{tabularx}
+
+\vspace{0.3cm}
+\textbf{Pass requirement:} Minimum 24/50 (48\%).
+
+\vspace{0.5cm}
+\hrule
+\vspace{0.5cm}
+
+% ─── 4. SUBMISSION ───────────────────────────────────────────
+\section*{4. Submission Requirements}
+
+You do not need to zip or upload your code. Your lecturer already has access to your private repository.
+
+Submit the following via the Moodle assignment dropbox:
+
+\begin{enumerate}
+  \item \textbf{Repository URL:} The full URL to your private GitHub repository (e.g., \texttt{https://github.com/mtjikuzu/swd80ps-practical-student-XX})
+  \item \textbf{Screenshot:} A clear screenshot showing the output of \texttt{python tests/test\_fixes.py} with all 12 tests passing
+  \item \textbf{(Optional) Video Walkthrough:} A 2--3 minute video recorded on your phone explaining three of your fixes. Upload to Google Drive and share the link.
+\end{enumerate}
+
+\vspace{0.5cm}
+\hrule
+\vspace{0.5cm}
+
+% ─── 5. DEADLINE ─────────────────────────────────────────────
+\section*{5. Deadline and Late Submission Policy}
+
+\begin{tabularx}{\textwidth}{@{}lX@{}}
+\textbf{Assessment Opens:} & Immediately upon receiving access \\
+\textbf{Assessment Closes:} & 20/06/2026 at 14:00 (2 PM) \\
+\textbf{Submission via:} & Moodle assignment dropbox \\
+\end{tabularx}
+
+\vspace{0.3cm}
+\textbf{Late Submission Policy:}
+\begin{itemize}
+  \item Submissions received after the deadline will be subject to a penalty of 10\% per day (including weekends).
+  \item Submissions more than 5 days late will receive a mark of zero.
+  \item Extensions must be requested in writing at least 48 hours before the deadline.
+\end{itemize}
+
+\vspace{0.5cm}
+\hrule
+\vspace{0.5cm}
+
+% ─── 6. ACADEMIC INTEGRITY ──────────────────────────────────
+\section*{6. Academic Integrity Statement}
+
+This is an \textbf{individual assessment}. By submitting this work, you declare that:
+
+\begin{enumerate}
+  \item All work submitted is your own original work.
+  \item You have not copied code or solutions from other students.
+  \item You have not shared your \texttt{challenge\_config.py} file or \texttt{STUDENT\_ID} with anyone.
+  \item You have not used generative AI to produce the complete solution without understanding the code.
+  \item You understand that plagiarism detection tools will be used and that academic dishonesty will result in disciplinary action in accordance with IUM's Academic Integrity Policy.
+\end{enumerate}
+
+\vspace{1cm}
+
+\noindent
+\begin{tabularx}{\textwidth}{@{}p{5cm}X@{}}
+\textbf{Student Signature:} & \hrulefill \\[8pt]
+\textbf{Date:} & \hrulefill \\[8pt]
+\textbf{Student Number:} & \hrulefill \\
+\end{tabularx}
+
+\vspace{1.5cm}
+
+
+
+\end{document}
