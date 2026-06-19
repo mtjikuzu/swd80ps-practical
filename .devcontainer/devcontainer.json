@@ -1,0 +1,20 @@
+{
+    "name": "SWD80PS Practical Assessment",
+    "image": "mcr.microsoft.com/devcontainers/python:3.11",
+    "postCreateCommand": "pip install flask",
+    "forwardPorts": [5000],
+    "portsAttributes": {
+        "5000": {
+            "label": "Flask App",
+            "onAutoForward": "notify"
+        }
+    },
+    "customizations": {
+        "vscode": {
+            "extensions": [
+                "ms-python.python",
+                "ms-python.vscode-pylance"
+            ]
+        }
+    }
+}
