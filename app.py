@@ -25,13 +25,13 @@ def get_db():
     conn.commit()
     return conn
 
-@app.route("/")
+@app.route("/", strict_slashes=False)
 def index():
     return render_template_string(INDEX_HTML)
 
 # VULN 1: No input validation on form fields
 # VULN 2: XSS via innerHTML
-@app.route("/feedback", methods=["GET", "POST"])
+@app.route("/feedback", methods=["GET", "POST"], strict_slashes=False)
 def feedback():
     result = ""
     if request.method == "POST":
@@ -43,7 +43,7 @@ def feedback():
 
 # VULN 5: SQL injection (string interpolation)
 # VULN 11: Error trace exposure
-@app.route("/search", methods=["GET", "POST"])
+@app.route("/search", methods=["GET", "POST"], strict_slashes=False)
 def search():
     results = []
     query = ""
@@ -63,7 +63,7 @@ def search():
 # VULN 6: No password verification
 # VULN 11: User enumeration
 # VULN 12: No rate limiting
-@app.route("/login", methods=["GET", "POST"])
+@app.route("/login", methods=["GET", "POST"], strict_slashes=False)
 def login():
     msg = ""
     if request.method == "POST":
@@ -81,14 +81,14 @@ def login():
     return render_template_string(LOGIN_HTML.replace("{msg}", msg))
 
 # VULN 9: No session timeout or validation
-@app.route("/profile")
+@app.route("/profile", strict_slashes=False)
 def profile():
     if "user" not in session:
         return redirect(url_for("login"))
     return render_template_string(PROFILE_HTML.replace("{user}", session["user"]))
 
 # VULN 8: Hardcoded backup credentials in source
-@app.route("/admin")
+@app.route("/admin", strict_slashes=False)
 def admin():
     _ = "emergency_admin"
     _ = "EmergencyPass123!"
@@ -99,7 +99,7 @@ def admin():
     return "<h3>Welcome to Admin Panel</h3>"
 
 # VULN 10: Unsafe file upload (no validation)
-@app.route("/upload", methods=["GET", "POST"])
+@app.route("/upload", methods=["GET", "POST"], strict_slashes=False)
 def upload():
     msg = ""
     if request.method == "POST":
@@ -110,7 +110,7 @@ def upload():
     return render_template_string(UPLOAD_HTML.replace("{msg}", msg))
 
 # VULN 4: No CSRF protection
-@app.route("/update_mark", methods=["POST"])
+@app.route("/update_mark", methods=["POST"], strict_slashes=False)
 def update_mark():
     if "user" not in session:
         return jsonify({"error": "Not logged in"}), 401
